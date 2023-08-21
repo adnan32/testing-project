@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./testing-projekt/testing/
+        working-directory: ./testing-projekt
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
@@ -32,5 +32,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          python ./test_model.py
-          python ./test_minimal_paths.py
+          python ./test/test_model.py
+          python ./test/test_minimal_paths.py
