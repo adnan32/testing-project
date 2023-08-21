@@ -29,13 +29,12 @@ jobs:
           pip install pytest              # Install pytest
       
       - name: Run tests without orjson
-        run: pytest test_minimal_paths.py test_model.py
-    
+        run: pytest testing/test/test_minimal_paths.py testing/test/test_model.py
+
       - name: Install orjson and rerun tests
         run: |
           pip install orjson
-          pytest test_minimal_paths.py test_model.py
-    
+          pytest testing/test/test_minimal_paths.py testing/test/test_model.py
       - name: Clean up
         run: |
           pip uninstall -y orjson
