@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
+  run-tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -15,21 +18,59 @@ jobs:
         orjson: [true, false]
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install minimal dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install -U pip
+          pip install pyyaml
+
+      - name: Check for tests
+        id: check
+        run: |
+          tests_to_run=$(find . -name "test_*.py")
+          echo "tests_to_run=$tests_to_run" >> $GITHUB_ENV
+          if [ -n "$tests_to_run" ]; then
+            echo "Tests found."
+          else
+            echo "No tests found."
+          fi
+
+      - name: Install other Dependencies
+        if: steps.check.outputs.tests_to_run != ''
+        run: |
           pip install -r requirements.txt
-          if [[ "${{ matrix.orjson }}" == "true" ]]; then pip install orjson; fi
+          pip install pytest
 
-      - name: Run tests
+      - name: Run Tests
+        if: steps.check.outputs.tests_to_run != ''
         run: |
-          pytest testing/test/test_minimal_paths.py testing/test/test_model.py
+          pytest ${{ steps.check.outputs.tests_to_run }}
 
+      - name: Check for files to test with orjson
+        id: check-orjson
+        if: steps.check.outputs.tests_to_run != ''
+        run: |
+          tests_to_run=$(find . -name "test_*.py")
+          echo "tests_to_run=$tests_to_run" >> $GITHUB_ENV
+          if [ -n "$tests_to_run" ]; then
+            echo "Tests found."
+          else
+            echo "No tests found."
+          fi
+
+      - name: Install orjson and rerun tests
+        if: steps.check.outputs.tests_to_run != '' && steps.check-orjson.outputs.tests_to_run != ''
+        run: |
+          pip install orjson
+
+      - name: Rerun Tests with orjson
+        if: steps.check.outputs.tests_to_run != '' && steps.check-orjson.outputs.tests_to_run != ''
+        run: |
+          pytest ${{ steps.check-orjson.outputs.tests_to_run }}
