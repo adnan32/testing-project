@@ -37,5 +37,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          python ./testing/test/test_model.py
-          python ./testing/test/test_minimal_paths.py
+          python /test/test_model.py
+          python /test/test_minimal_paths.py
