@@ -2,11 +2,7 @@ name: Run Tests
 
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
 
 jobs:
   run-tests:
@@ -34,7 +30,7 @@ jobs:
       - name: Check for tests
         id: check
         run: |
-          tests_to_run=$(find . -name "test_*.py")
+          tests_to_run=$(find testing/test -name "test_*.py")
           echo "tests_to_run=$tests_to_run" >> $GITHUB_ENV
           if [ -n "$tests_to_run" ]; then
             echo "Tests found."
@@ -51,13 +47,13 @@ jobs:
       - name: Run Tests
         if: steps.check.outputs.tests_to_run != ''
         run: |
-          pytest ${{ steps.check.outputs.tests_to_run }}
+          pytest $tests_to_run
 
       - name: Check for files to test with orjson
         id: check-orjson
         if: steps.check.outputs.tests_to_run != ''
         run: |
-          tests_to_run=$(find . -name "test_*.py")
+          tests_to_run=$(find testing/test -name "test_*.py")
           echo "tests_to_run=$tests_to_run" >> $GITHUB_ENV
           if [ -n "$tests_to_run" ]; then
             echo "Tests found."
@@ -73,4 +69,4 @@ jobs:
       - name: Rerun Tests with orjson
         if: steps.check.outputs.tests_to_run != '' && steps.check-orjson.outputs.tests_to_run != ''
         run: |
-          pytest ${{ steps.check-orjson.outputs.tests_to_run }}
+          pytest $tests_to_run
