@@ -1,5 +1,4 @@
 import unittest
-
 from simulation.model import CommunicationNetwork
 from simulation.model import EntityNotFound
 
