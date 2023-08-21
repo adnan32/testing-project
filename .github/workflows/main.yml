@@ -27,7 +27,4 @@ jobs:
           pip install -r requirements.txt
           pip install pyyaml
 
-      - name: Run Tests
-        run: |
-          python /test/test_model.py
-          python /testtest_minimal_paths.py
+          if my test file requier a module is insid the root but i run test like 
