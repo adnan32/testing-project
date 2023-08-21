@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./test/
+        working-directory: .
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
