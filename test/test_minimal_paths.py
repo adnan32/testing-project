@@ -2,7 +2,6 @@ import unittest
 from simulation.model import CommunicationNetwork
 from simulation.model import EntityNotFound
 from simulation.minimal_paths import single_source_dijkstra_vertices, single_source_dijkstra_hyperedges, DistanceType
-
 class MinimalPath(unittest.TestCase):
     cn_data = {
         'h1': ['v1', 'v2'],
@@ -42,7 +41,7 @@ class MinimalPath(unittest.TestCase):
     #ID 12
     def test_equivalence_of_different_start_nodes(self):
         start_nodes = ['v2', 'v3']
-        distances = [DistanceType.SHORTEST, DistanceType.FASTEST, DistanceType.FOREMOST]     
+        distances = [DistanceType.SHORTEST, DistanceType.FASTEST, DistanceType.FOREMOST]
         for distance in distances:
             for start_node in start_nodes:
                 with self.subTest(distance=distance, start_node=start_node):
