@@ -36,12 +36,12 @@ class CNModelTest(unittest.TestCase):
     #ID 14
     def test_vertices(self):
         self.assertEqual(len(CNModelTest.cn.vertices()), 4)
-        self.assertEqual(CNModelTest.cn.vertices('h1'), {'v1', 'v2'})  
+        self.assertEqual(CNModelTest.cn.vertices('h1'), {'v1', 'v2'})
     #ID 15
     def test_hyperedges(self):
         self.assertEqual(len(CNModelTest.cn.hyperedges()), 3)
         self.assertEqual(CNModelTest.cn.hyperedges('v1'), {'h1'})
-class ModelDataTest(unittest.TestCase):   
+class ModelDataTest(unittest.TestCase):
     #ID 16
     def test_model_with_data(self):
         communciation_network = CommunicationNetwork.from_json('./data/networks/microsoft.json.bz2')
