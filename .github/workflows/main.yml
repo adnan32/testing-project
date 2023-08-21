@@ -6,10 +6,10 @@ on:
 
 jobs:
   run-tests:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: .\testing\test\
+        working-directory: ./testing-projekt/testing/
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
@@ -21,8 +21,8 @@ jobs:
 
       - name: Debug Directory
         run: |
-          dir
-          
+          ls -R
+
       - name: Setup Python 
         uses: actions/setup-python@v2
         with:
@@ -31,10 +31,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r ..\requirements.txt
+          pip install -r ../requirements.txt
           pip install pyyaml
 
       - name: Run Tests
         run: |
-          python .\test_model.py
-          python .\test_minimal_paths.py
+          python ./test_model.py
+          python ./test_minimal_paths.py
