@@ -16,10 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Debug Directory
-        run: |
-          ls -R
-
       - name: Setup Python 
         uses: actions/setup-python@v2
         with:
@@ -31,11 +27,7 @@ jobs:
           pip install -r requirements.txt
           pip install pyyaml
 
-      - name: Set Python Path
-        run: |
-          export PYTHONPATH=$PYTHONPATH:/path/to/simulation
-
       - name: Run Tests
         run: |
-          python /test/test_model.py
-          python /test/test_minimal_paths.py
+          python test_model.py
+          python test_minimal_paths.py
